@@ -16,49 +16,40 @@ import java.util.List;
 
 public class LoginPage extends DriverUtils {
     private WebDriver driver;
-    private static final String ALGORITHM = "AES";
-    private static final String SECRET_KEY = "lQVLrA/nRk5VztLbA/Na4A==";
-    private ConfigReader configReader = new ConfigReader();
-    private OdsReader odsReader = new OdsReader();
-    private static List<Object> loginDetails = new ArrayList<Object>();
 
-    //*****************Locators***********************************//
-    @FindBy(css = "input[name='userInput']")
-    private WebElement txt_Email;
-
+    @FindBy(xpath = "//h1[text()='Log in to United Gates']")
+    private WebElement title_Login;
+    @FindBy(xpath = "//input[@name='userInput']")
+    private WebElement txt_EmailID;
     @FindBy(xpath = "//span[contains(text(),'Send OTP')]")
     private WebElement btn_SendOTP;
-
     @FindBy(xpath = "//input[@name='otpInput1']")
     private WebElement txt_OTP;
-
-    @FindBy(xpath = "//span[contains(text(),'Verify OTP')]")
+    @FindBy(xpath = "//span[contains(text(),'Verify and Login')]")
     private WebElement btn_VerifyOTP;
 
-    public LoginPage(WebDriver driver) throws IOException, InvalidFormatException {
+    public LoginPage(WebDriver driver) {
         this.driver = driver;
-        loginDetails = odsReader.getUserDetails(configReader.getUserDetails());
         PageFactory.initElements(driver, this);
     }
 
-    public void enterUserEmailOrMobile(String fieldName, String value) {
-        waitUntilVisible(txt_Email);
-        sendKeys(txt_Email, value , true);
+    public void isLoginTitleDisplayed() {
+        waitUntilVisible(title_Login);
     }
 
-    public HomePage clickSendOtpButton() {
-        try {
-            waitAndClick(btn_SendOTP);
-        } catch (StaleElementReferenceException e) {
-            btn_SendOTP.click();
-        }
-        return new HomePage(driver);
+    public void enterEmailID(String email) {
+        sendKeys(txt_EmailID, email, true);
     }
 
-    public void enterOTP(String fieldName,String value){
-        sendKeys(txt_OTP,value,false);
+    public void clickSendOTP() {
+        waitAndClick(btn_SendOTP);
     }
-    public void clickOnVerifyOtpButton(){
+
+    public void enterOTP(String otp) {
+        sendKeys(txt_OTP, otp, true);
+    }
+
+    public void clickVerifyAndLogin() {
         waitAndClick(btn_VerifyOTP);
     }
 }

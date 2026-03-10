@@ -72,7 +72,7 @@ public class ApplicationHooks extends WebDriverFactory {
 
     @After(order = 2)
     public void tearDown(Scenario scenario) {
-        if (scenario.isFailed()) {
+        if (scenario.isFailed() && driver != null) {
             String screenshotName = scenario.getName().replaceAll(" ", "_");
             byte[] sourcePath = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             scenario.attach(sourcePath, "image/png", screenshotName);
@@ -81,7 +81,7 @@ public class ApplicationHooks extends WebDriverFactory {
 
     @After(order = 1)
     public void saveScreenshot(Scenario scenario) throws IOException {
-        if (scenario.isFailed()) {
+        if (scenario.isFailed() && driver != null) {
             DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy-HH-mm-ss");
             Date date = new Date();
             String date1 = dateFormat.format(date);

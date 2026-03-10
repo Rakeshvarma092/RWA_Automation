@@ -30,6 +30,7 @@ public class WebDriverFactory {
     public WebDriver init_driver(String browser) {
         System.out.println("browser value is: " + browser);
         if (browser.equals("chrome")) {
+            WebDriverManager.chromedriver().setup();
             tlDriver.set(new ChromeDriver(chromeOptions()));
         } else if (browser.equals("firefox")) {
             WebDriverManager.firefoxdriver().setup();
@@ -85,4 +86,3 @@ public class WebDriverFactory {
         driver.navigate().to(url);
     }
 }
-
