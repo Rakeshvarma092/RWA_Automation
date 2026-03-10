@@ -4,6 +4,7 @@ package stepDefinitions;
 import DriverFactory.WebDriverFactory;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -43,14 +44,18 @@ public class ApplicationHooks extends WebDriverFactory {
 
     @Before(order = 0)
     public void initialization(Scenario scenario) throws IOException {
-        this.scenario = scenario;
-        spark = new ExtentSparkReporter("./ExtentReports-Verbose/AutomationReport-" + dateFormat() + "/Automation-Report.html");
+        ApplicationHooks.scenario = scenario;
+        if (spark == null) {
+            String reportFolderName = "AutomationReport-" + dateTimeFormat();
+            spark = new ExtentSparkReporter("./ExtentReports-Verbose/" + reportFolderName + "/Automation-Report.html");
+            extent.attachReporter(spark);
+        }
         configReader = new ConfigReader();
         extentReader = new ExtentReader();
         properties = configReader.init_Prop();
         driverFactory = new WebDriverFactory();
-        extent.attachReporter(spark);
-        test = extent.createTest(scenarioName());
+        
+        test = extent.createTest(scenario.getName());
         extentReader.updateExtentPropertiesValue("basefolder.name", "Reports/reports-" + dateFormat() + "/reports");
         deleteFiles("Reports");
         deleteFiles("Screenshots");
@@ -67,6 +72,9 @@ public class ApplicationHooks extends WebDriverFactory {
 
     @After(order = 0)
     public void setExtent() {
+        if (driver != null) {
+            driver.quit();
+        }
         extent.flush();
     }
 
@@ -76,6 +84,12 @@ public class ApplicationHooks extends WebDriverFactory {
             String screenshotName = scenario.getName().replaceAll(" ", "_");
             byte[] sourcePath = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             scenario.attach(sourcePath, "image/png", screenshotName);
+            
+            // Log failure to Extent Report with screenshot
+            String base64Screenshot = Base64.encodeBase64String(sourcePath);
+            test.fail("Scenario Failed", MediaEntityBuilder.createScreenCaptureFromBase64String(base64Screenshot).build());
+        } else if (!scenario.isFailed()) {
+            test.pass("Scenario Passed");
         }
     }
 
@@ -117,6 +131,12 @@ public class ApplicationHooks extends WebDriverFactory {
 
     public String dateFormat() {
         DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
+
+    public String dateTimeFormat() {
+        DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy_HH-mm-ss");
         Date date = new Date();
         return dateFormat.format(date);
     }

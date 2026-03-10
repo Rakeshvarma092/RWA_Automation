@@ -83,7 +83,21 @@ public class CommonUIStepDefinitions extends CorePage {
 
     @Then("Verify {string} page is visible")
     public void verifyPageIsVisible(String pageName) {
-        homePage.verifySystemHomePage();
+        try {
+            switch (pageName.toUpperCase()) {
+                case "SYSTEM ADMIN":
+                    homePage.verifySystemHomePage();
+                    break;
+                case "COMMUNITY ADMIN":
+                    homePage.verifyCommunityHomePage();
+                    break;
+                default:
+                    Assert.fail("Invalid page name provided: " + pageName);
+            }
+        } catch (Exception e) {
+            test.fail("Failed to verify " + pageName + " page visibility: " + e.getClass().getSimpleName());
+            Assert.fail("Failed to verify " + pageName + " page visibility: " + e.getClass().getSimpleName());
+        }
     }
 
     @When("User enters email ID {string}")
@@ -163,6 +177,11 @@ public class CommonUIStepDefinitions extends CorePage {
         companyManagementPage.enterAddressLine2(address);
     }
 
+    @And("User click on Pincode")
+    public void userClickOnPincode() {
+        companyManagementPage.clickPincode();
+    }
+
     @And("User clicks on Selected Pincode from lookup")
     public void userClicksOnSelectedPincodeFromLookup() {
         companyManagementPage.clickSelectedPincode();
@@ -208,13 +227,4 @@ public class CommonUIStepDefinitions extends CorePage {
         companyManagementPage.clickCancel();
     }
 
-    @And("User click on Pincode")
-    public void userClickOnPincode() {
-        companyManagementPage.clickPincode();
-    }
-
-    @And("User enters Pincode {string}")
-    public void userEntersPincode(String pincode) {
-        companyManagementPage.enterPincode(pincode);
-    }
 }
