@@ -9,10 +9,10 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.testng.Assert;
 import pageComponents.CorePage;
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static stepDefinitions.ApplicationHooks.test;
 
@@ -31,7 +31,7 @@ public class CommonUIStepDefinitions extends CorePage {
     public CommonUIStepDefinitions() throws IOException, InvalidFormatException {
     }
 
-    //************************************************ LOGIN *********************************************************//
+    //================================================ LOGIN =========================================================//
 
     @Given("User navigates to Url")
     public void userNavigatesToUrl() {
@@ -94,5 +94,127 @@ public class CommonUIStepDefinitions extends CorePage {
     @And("User enters OTP {string}")
     public void userEntersOTP(String otp) {
         loginPage.enterOTP(otp);
+    }
+
+    //================================================ LOGOUT ========================================================//
+    @When("User clicks on Profile icon")
+    public void userClicksOnProfileIcon() {
+        logoutPage.clickProfile();
+    }
+
+    @Then("Verify Profile menu is displayed")
+    public void verifyProfileMenuIsDisplayed() {
+        Assert.assertTrue(logoutPage.isSystemAdminProfileDisplayed(), "Profile Menu/System Admin Profile is not displayed");
+    }
+
+    @And("User clicks on Log Out button")
+    public void userClicksOnLogoutButton() {
+        logoutPage.clickLogout();
+    }
+
+    // ============================================= COMPANY ONBOARD =================================================//
+    @When("User clicks on Company Management")
+    public void userClicksOnCompanyManagement() {
+        companyManagementPage.clickCompanyManagementMenu();
+    }
+
+    @Then("Verify Company Onboard page is visible")
+    public void verifyCompanyOnboardPageIsVisible() {
+        Assert.assertTrue(companyManagementPage.isOnboardCompanyDisplayed(), "Company onboard page is not displayed");
+    }
+
+    @When("User clicks on Add New button")
+    public void userClicksOnAddNewButton() {
+        companyManagementPage.clickAddNew();
+    }
+
+    @Then("Verify Onboard Company page is visible")
+    public void verifyOnboardCompanyPageIsVisible() {
+        Assert.assertTrue(companyManagementPage.isOnboardCompanyPageDisplayed(), "Onboard Company Page is not displayed");
+    }
+
+    @When("User set Company Details in onboard company page")
+    public void userSetCompanyDetailsInOnboardCompanyPage(DataTable dataTable) {
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : data) {
+            for (Map.Entry<String, String> entry : row.entrySet()) {
+                companyManagementPage.setCompanyDetails(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    @When("User set Communication Details in onboard company page")
+    public void userSetCommunicationDetailsInOnboardCompanyPage(DataTable dataTable) {
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : data) {
+            for (Map.Entry<String, String> entry : row.entrySet()) {
+                companyManagementPage.setCommunicationDetails(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    @And("User enters Address Line 1 {string}")
+    public void userEntersAddressLine1(String address) {
+        companyManagementPage.enterAddressLine1(address);
+    }
+
+    @And("User enters Address Line 2 {string}")
+    public void userEntersAddressLine2(String address) {
+        companyManagementPage.enterAddressLine2(address);
+    }
+
+    @And("User clicks on Selected Pincode from lookup")
+    public void userClicksOnSelectedPincodeFromLookup() {
+        companyManagementPage.clickSelectedPincode();
+    }
+
+    @And("User enters Google Map Link {string}")
+    public void userEntersGoogleMapLink(String link) {
+        companyManagementPage.enterGoogleMapLink(link);
+    }
+
+    @When("User set Tax And Compliance Details in onboard company page")
+    public void userSetTaxAndComplianceDetailsInOnboardCompanyPage(DataTable dataTable) {
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : data) {
+            for (Map.Entry<String, String> entry : row.entrySet()) {
+                companyManagementPage.setTaxAndComplianceDetails(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    @When("User set Key Contact Details in onboard company page")
+    public void userSetKeyContactDetailsInOnboardCompanyPage(DataTable dataTable) {
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : data) {
+            for (Map.Entry<String, String> entry : row.entrySet()) {
+                companyManagementPage.setKeyContactDetails(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    @When("User clicks on Save button in Company Management")
+    public void userClicksOnSaveButton() {
+        companyManagementPage.clickSave();
+    }
+
+    @When("User clicks on Cancel button in Company Management")
+    public void userClicksOnCancelButton() {
+        companyManagementPage.clickCancel();
+    }
+
+    @And("User clicks on Clear button in Company Management")
+    public void userClicksOnClearButtonInCompanyManagement() {
+        companyManagementPage.clickCancel();
+    }
+
+    @And("User click on Pincode")
+    public void userClickOnPincode() {
+        companyManagementPage.clickPincode();
+    }
+
+    @And("User enters Pincode {string}")
+    public void userEntersPincode(String pincode) {
+        companyManagementPage.enterPincode(pincode);
     }
 }

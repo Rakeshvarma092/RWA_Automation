@@ -7,9 +7,9 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"src/test/resources/features"},
+        features = {"classpath:features"},
         glue = {"stepDefinitions"},
-        tags = "@Branch2",
+        tags = "@Branch5",
         plugin = {"pretty", "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
                 "rerun:testData/rerun.txt"},
         monochrome = true
