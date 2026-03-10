@@ -227,4 +227,73 @@ public class CommonUIStepDefinitions extends CorePage {
         companyManagementPage.clickCancel();
     }
 
+    //=================================== MASTER DATA =========================================================//
+
+    @When("User clicks on Configuration icon")
+    public void userClicksOnConfigurationIcon() {
+        masterDataPage.clickConfiguration();
+    }
+
+    @And("User clicks on Master Data option")
+    public void userClicksOnMasterDataOption() {
+        masterDataPage.clickMasterData();
+    }
+
+    @Then("Verify Master Data page is visible")
+    public void verifyMasterDataPageIsVisible() {
+        Assert.assertTrue(masterDataPage.isMasterDataTitleDisplayed(), "Master Data page title is not displayed");
+    }
+
+    @When("User clicks on {string} tab in Master Data")
+    public void userClicksOnTabInMasterData(String tabName) {
+        masterDataPage.clickTab(tabName);
+    }
+
+    @And("User clicks on New button in Master Data")
+    public void userClicksOnNewButtonInMasterData() {
+        masterDataPage.clickNew();
+    }
+
+    @Then("Verify {string} creation title is displayed")
+    public void verifyCreationTitleIsDisplayed(String type) {
+        boolean isDisplayed = false;
+        switch (type.toUpperCase()) {
+            case "PROJECT TYPE":
+                isDisplayed = masterDataPage.isNewProjectTypeTitleDisplayed();
+                break;
+            case "CUSTOMER PROFESSION":
+                isDisplayed = masterDataPage.isNewCustomerProfessionTitleDisplayed();
+                break;
+            case "CUSTOMER CLASSIFICATION":
+                isDisplayed = masterDataPage.isNewCustomerClassificationTitleDisplayed();
+                break;
+            case "CUSTOMER STAGE":
+                isDisplayed = masterDataPage.isNewCustomerStageTitleDisplayed();
+                break;
+            case "DOCUMENT":
+                isDisplayed = masterDataPage.isNewDocumentTitleDisplayed();
+                break;
+        }
+        Assert.assertTrue(isDisplayed, type + " creation title is not displayed");
+    }
+
+    @When("User sets Master Data details")
+    public void userSetsMasterDataDetails(DataTable dataTable) {
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : data) {
+            for (Map.Entry<String, String> entry : row.entrySet()) {
+                masterDataPage.setMasterDataDetails(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    @And("User clicks on Save button in Master Data")
+    public void userClicksOnSaveButtonInMasterData() {
+        masterDataPage.clickSave();
+    }
+
+    @And("User clicks on Cancel button in Master Data")
+    public void userClicksOnCancelButtonInMasterData() {
+        masterDataPage.clickCancel();
+    }
 }
