@@ -362,4 +362,86 @@ public class CommonUIStepDefinitions extends CorePage {
     public void userClicksOnCancelButtonInBankConfiguration() {
         bankConfigurationPage.clickCancel();
     }
+
+    //=================================== PROJECT ONBOARDING ===================================================//
+
+    @When("User clicks on Project Onboarding option")
+    public void userClicksOnProjectOnboardingOption() {
+        projectOnboardingPage.clickProjectOnboarding();
+    }
+
+    @Then("Verify Project Management page is visible")
+    public void verifyProjectManagementPageIsVisible() {
+        Assert.assertTrue(projectOnboardingPage.isProjectManagementTitleDisplayed(), "Project Management page title is not displayed");
+    }
+
+    @When("User clicks on New button in Project Onboarding")
+    public void userClicksOnNewButtonInProjectOnboarding() {
+        projectOnboardingPage.clickAddNew();
+    }
+
+    @When("User set Project Details in project onboarding page")
+    public void userSetProjectDetailsInProjectOnboardingPage(DataTable dataTable) {
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : data) {
+            for (Map.Entry<String, String> entry : row.entrySet()) {
+                projectOnboardingPage.setProjectDetails(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    @When("User set Communication Details in project onboarding page")
+    public void userSetCommunicationDetailsInProjectOnboardingPage(DataTable dataTable) {
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : data) {
+            for (Map.Entry<String, String> entry : row.entrySet()) {
+                projectOnboardingPage.setCommunicationDetails(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    @And("User enters Address Line 1 {string} in project onboarding")
+    public void userEntersAddressLine1InProjectOnboarding(String address) {
+        projectOnboardingPage.enterAddressLine1(address);
+    }
+
+    @And("User enters Address Line 2 {string} in project onboarding")
+    public void userEntersAddressLine2InProjectOnboarding(String address) {
+        projectOnboardingPage.enterAddressLine2(address);
+    }
+
+    @And("User click on Pincode in project onboarding")
+    public void userClickOnPincodeInProjectOnboarding() {
+        projectOnboardingPage.clickPincode();
+    }
+
+    @And("User clicks on Selected Pincode from lookup in project onboarding")
+    public void userClicksOnSelectedPincodeFromLookupInProjectOnboarding() {
+        projectOnboardingPage.clickSelectedPincode();
+    }
+
+    @And("User enters Google Map Link {string} in project onboarding")
+    public void userEntersGoogleMapLinkInProjectOnboarding(String link) {
+        projectOnboardingPage.enterGoogleMapLink(link);
+    }
+
+    @When("User set Key Contact Details in project onboarding page")
+    public void userSetKeyContactDetailsInProjectOnboardingPage(DataTable dataTable) {
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : data) {
+            for (Map.Entry<String, String> entry : row.entrySet()) {
+                projectOnboardingPage.setKeyContactDetails(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    @When("User clicks on Save button in Project Onboarding")
+    public void userClicksOnSaveButtonInProjectOnboarding() {
+        projectOnboardingPage.clickSave();
+    }
+
+    @When("User clicks on Cancel button in Project Onboarding")
+    public void userClicksOnCancelButtonInProjectOnboarding() {
+        projectOnboardingPage.clickCancel();
+    }
 }
