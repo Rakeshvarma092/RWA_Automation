@@ -14,6 +14,7 @@ public class CorePage extends DriverUtils {
     public BankConfigurationPage bankConfigurationPage = new BankConfigurationPage(driver);
     public ProjectOnboardingPage projectOnboardingPage = new ProjectOnboardingPage(driver);
     public StructurePage structurePage = new StructurePage(driver);
+    public OwnershipClassificationPage ownershipClassificationPage = new OwnershipClassificationPage(driver);
     public MasterDataPage masterDataPage = new MasterDataPage(driver);
     public OdsReader odsReader = new OdsReader();
     public OTPSteps otpSteps = new OTPSteps();

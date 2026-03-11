@@ -529,4 +529,50 @@ public class CommonUIStepDefinitions extends CorePage {
         structurePage.clickCancel();
     }
 
+    //=================================== OWNERSHIP CLASSIFICATION =============================================//
+
+    @When("User clicks on Ownership Classification option")
+    public void userClicksOnOwnershipClassificationOption() {
+        ownershipClassificationPage.clickOwnershipClassification();
+    }
+
+    @Then("Verify Ownership Classification page is visible")
+    public void verifyOwnershipClassificationPageIsVisible() {
+        Assert.assertTrue(ownershipClassificationPage.isOwnershipClassificationHeaderDisplayed(), "Ownership Classification header is not displayed");
+    }
+
+    @When("User clicks on {string} tab in Ownership Classification")
+    public void userClicksOnTabInOwnershipClassification(String tabName) {
+        ownershipClassificationPage.clickTab(tabName);
+    }
+
+    @When("User clicks on New button in Ownership Classification")
+    public void userClicksOnNewButtonInOwnershipClassification() {
+        ownershipClassificationPage.clickNew();
+    }
+
+    @Then("Verify Add Owner Type title is displayed")
+    public void verifyAddOwnerTypeTitleIsDisplayed() {
+        Assert.assertTrue(ownershipClassificationPage.isAddOwnerTypeHeaderDisplayed(), "Add Owner Type header is not displayed");
+    }
+
+    @When("User sets Owner Type details in Ownership Classification")
+    public void userSetsOwnerTypeDetails(DataTable dataTable) {
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : data) {
+            for (Map.Entry<String, String> entry : row.entrySet()) {
+                ownershipClassificationPage.setOwnerTypeDetails(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    @And("User clicks on Save button in Ownership Classification")
+    public void userClicksOnSaveButtonInOwnershipClassification() {
+        ownershipClassificationPage.clickSave();
+    }
+
+    @And("User clicks on Cancel button in Ownership Classification")
+    public void userClicksOnCancelButtonInOwnershipClassification() {
+        ownershipClassificationPage.clickCancel();
+    }
 }
