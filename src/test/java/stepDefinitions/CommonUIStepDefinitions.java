@@ -296,4 +296,70 @@ public class CommonUIStepDefinitions extends CorePage {
     public void userClicksOnCancelButtonInMasterData() {
         masterDataPage.clickCancel();
     }
+
+    //=================================== BANK CONFIGURATION ===================================================//
+
+    @And("User clicks on Bank Configuration option")
+    public void userClicksOnBankConfigurationOption() {
+        bankConfigurationPage.clickBankConfiguration();
+    }
+
+    @Then("Verify Bank Configuration page is visible")
+    public void verifyBankConfigurationPageIsVisible() {
+        Assert.assertTrue(bankConfigurationPage.isBankConfigurationTitleDisplayed(), "Bank Configuration page title is not displayed");
+    }
+
+    @When("User clicks on {string} tab in Bank Configuration")
+    public void userClicksOnTabInBankConfiguration(String tabName) {
+        bankConfigurationPage.clickTab(tabName);
+    }
+
+    @And("User clicks on New button in Bank Configuration")
+    public void userClicksOnNewButtonInBankConfiguration() {
+        bankConfigurationPage.clickNew();
+    }
+
+    @Then("Verify {string} bank creation title is displayed")
+    public void verifyBankCreationTitleIsDisplayed(String type) {
+        boolean isDisplayed = false;
+        switch (type.toUpperCase()) {
+            case "COMPANY":
+                isDisplayed = bankConfigurationPage.isAddCompanyBankTitleDisplayed();
+                break;
+            case "CUSTOMER":
+                isDisplayed = bankConfigurationPage.isAddCustomerBankTitleDisplayed();
+                break;
+        }
+        Assert.assertTrue(isDisplayed, type + " bank creation title is not displayed");
+    }
+
+    @When("User sets Company Bank details")
+    public void userSetsCompanyBankDetails(DataTable dataTable) {
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : data) {
+            for (Map.Entry<String, String> entry : row.entrySet()) {
+                bankConfigurationPage.setCompanyBankDetails(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    @When("User sets Customer Bank details")
+    public void userSetsCustomerBankDetails(DataTable dataTable) {
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : data) {
+            for (Map.Entry<String, String> entry : row.entrySet()) {
+                bankConfigurationPage.setCustomerBankDetails(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    @And("User clicks on Save button in Bank Configuration")
+    public void userClicksOnSaveButtonInBankConfiguration() {
+        bankConfigurationPage.clickSave();
+    }
+
+    @And("User clicks on Cancel button in Bank Configuration")
+    public void userClicksOnCancelButtonInBankConfiguration() {
+        bankConfigurationPage.clickCancel();
+    }
 }
