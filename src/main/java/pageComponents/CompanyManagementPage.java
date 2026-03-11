@@ -285,12 +285,9 @@ public class CompanyManagementPage extends DriverUtils {
                 System.out.println("Invalid field name: " + fieldName);
         }
     }
-
-
     public void clickCancel() {
         waitAndClick(btn_Cancel);
     }
-
     public void clickSave() {
         waitAndClick(btn_Save);
     }
