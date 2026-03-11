@@ -444,4 +444,89 @@ public class CommonUIStepDefinitions extends CorePage {
     public void userClicksOnCancelButtonInProjectOnboarding() {
         projectOnboardingPage.clickCancel();
     }
+
+    //====================================== STRUCTURE =========================================================//
+
+    @And("User clicks on Project Setup icon")
+    public void userClicksOnProjectSetupIcon() {
+        structurePage.clickProjectSetup();
+    }
+
+    @When("User clicks on Structure option")
+    public void userClicksOnStructureOption() {
+        structurePage.clickStructure();
+    }
+
+    @Then("Verify Structure page is visible")
+    public void verifyStructurePageIsVisible() {
+        Assert.assertTrue(structurePage.isStructureTitleDisplayed(), "Structure page title is not displayed");
+    }
+
+    @When("User clicks on {string} tab in Structure")
+    public void userClicksOnTabInStructure(String tabName) {
+        structurePage.clickTab(tabName);
+    }
+
+    @When("User clicks on New button in Structure")
+    public void userClicksOnNewButtonInStructure() {
+        structurePage.clickNew();
+    }
+
+    @Then("Verify {string} creation title is displayed in Structure")
+    public void verifyCreationTitleIsDisplayedInStructure(String type) {
+        boolean isDisplayed = false;
+        switch (type.toUpperCase()) {
+            case "TOWER":
+                isDisplayed = structurePage.isAddTowerTitleDisplayed();
+                break;
+            case "UNIT TYPE":
+                isDisplayed = structurePage.isAddUnitTypeTitleDisplayed();
+                break;
+            case "UNIT LOCATION":
+                isDisplayed = structurePage.isAddUnitLocationTitleDisplayed();
+                break;
+        }
+        Assert.assertTrue(isDisplayed, type + " creation title is not displayed in Structure");
+    }
+
+    @When("User sets Tower details in Structure")
+    public void userSetsTowerDetails(DataTable dataTable) {
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : data) {
+            for (Map.Entry<String, String> entry : row.entrySet()) {
+                structurePage.setTowerDetails(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    @When("User sets Unit Type details in Structure")
+    public void userSetsUnitTypeDetails(DataTable dataTable) {
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : data) {
+            for (Map.Entry<String, String> entry : row.entrySet()) {
+                structurePage.setUnitTypeDetails(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    @When("User sets Unit Location details in Structure")
+    public void userSetsUnitLocationDetails(DataTable dataTable) {
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : data) {
+            for (Map.Entry<String, String> entry : row.entrySet()) {
+                structurePage.setUnitLocationDetails(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    @And("User clicks on Save button in Structure")
+    public void userClicksOnSaveButtonInStructure() {
+        structurePage.clickSave();
+    }
+
+    @And("User clicks on Cancel button in Structure")
+    public void userClicksOnCancelButtonInStructure() {
+        structurePage.clickCancel();
+    }
+
 }
