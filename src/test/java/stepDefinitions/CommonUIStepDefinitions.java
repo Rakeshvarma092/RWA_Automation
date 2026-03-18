@@ -575,4 +575,125 @@ public class CommonUIStepDefinitions extends CorePage {
     public void userClicksOnCancelButtonInOwnershipClassification() {
         ownershipClassificationPage.clickCancel();
     }
+
+    //=================================== STAGE ===================================================//
+
+    @When("User clicks on Payment Setup option")
+    public void userClicksOnPaymentSetup() {
+        stagePage.clickPaymentSetup();
+    }
+
+    @And("User clicks on Stage option")
+    public void userClicksOnStage() {
+        stagePage.clickStage();
+    }
+
+    @Then("Verify Stage page is visible")
+    public void verifyStagePageIsVisible() {
+        Assert.assertTrue(stagePage.isPaymentPlanTitleDisplayed(), "Stage/Payment Plan page title is not displayed");
+    }
+
+    @When("User clicks on {string} tab in Stage")
+    public void userClicksOnTabInStage(String tabName) {
+        stagePage.clickTab(tabName);
+    }
+
+    @And("User clicks on New button in Stage for {string}")
+    public void userClicksOnNewButtonInStage(String tabName) {
+        stagePage.clickNew(tabName);
+    }
+
+    @Then("Verify {string} creation title is displayed in Stage")
+    public void verifyCreationTitleIsDisplayedInStage(String tabName) {
+        Assert.assertTrue(stagePage.isAddTitleDisplayed(tabName), tabName + " creation title is not displayed");
+    }
+
+    @When("User sets {string} details in Stage")
+    public void userSetsStageDetails(String tabName, DataTable dataTable) {
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : data) {
+            for (Map.Entry<String, String> entry : row.entrySet()) {
+                if (tabName.equalsIgnoreCase("Construction Stage")) {
+                    stagePage.setConstructionStageDetails(entry.getKey(), entry.getValue());
+                } else if (tabName.equalsIgnoreCase("Payment Plan")) {
+                    stagePage.setPaymentPlanDetails(entry.getKey(), entry.getValue());
+                }
+            }
+        }
+    }
+
+    @And("User clicks on Save button in Stage for {string}")
+    public void userClicksOnSaveButtonInStage(String tabName) {
+        stagePage.clickSave(tabName);
+    }
+
+    @And("User clicks on Cancel button in Stage for {string}")
+    public void userClicksOnCancelButtonInStage(String tabName) {
+        stagePage.clickCancel(tabName);
+    }
+
+    //=================================== CHARGES ===================================================//
+
+    @When("User clicks on Charge Master option")
+    public void userClicksOnChargeMaster() {
+        chargesPage.clickChargeMaster();
+    }
+
+    @And("User clicks on Charges option")
+    public void userClicksOnCharges() {
+        chargesPage.clickCharges();
+    }
+
+    @Then("Verify Charges page is visible")
+    public void verifyChargesPageIsVisible() {
+        Assert.assertTrue(chargesPage.isChargesTitleDisplayed(), "Charges page title is not displayed");
+    }
+
+    @When("User clicks on {string} tab in Charges")
+    public void userClicksOnTabInCharges(String tabName) {
+        chargesPage.clickTab(tabName);
+    }
+
+    @And("User clicks on New button in Charges for {string}")
+    public void userClicksOnNewButtonInCharges(String chargeType) {
+        chargesPage.clickNew(chargeType);
+    }
+
+    @Then("Verify {string} creation title is displayed in Charges")
+    public void verifyCreationTitleIsDisplayedInCharges(String chargeType) {
+        Assert.assertTrue(chargesPage.isAddChargeTitleDisplayed(chargeType), chargeType + " creation title is not displayed");
+    }
+
+    @When("User sets {string} details")
+    public void userSetsChargeDetails(String chargeType, DataTable dataTable) {
+        List<Map<String, String>> data = dataTable.asMaps(String.class, String.class);
+        for (Map<String, String> row : data) {
+            for (Map.Entry<String, String> entry : row.entrySet()) {
+                switch (chargeType.toUpperCase()) {
+                    case "PLC CHARGE":
+                        chargesPage.setPLCChargeDetails(entry.getKey(), entry.getValue());
+                        break;
+                    case "OTHER CHARGES":
+                        chargesPage.setOtherChargeDetails(entry.getKey(), entry.getValue());
+                        break;
+                    case "IFMS":
+                        chargesPage.setIFMSDetails(entry.getKey(), entry.getValue());
+                        break;
+                    case "ADD ON CHARGES":
+                        chargesPage.setAddOnChargeDetails(entry.getKey(), entry.getValue());
+                        break;
+                }
+            }
+        }
+    }
+
+    @And("User clicks on Save button in Charges for {string}")
+    public void userClicksOnSaveButtonInCharges(String chargeType) {
+        chargesPage.clickSave(chargeType);
+    }
+
+    @And("User clicks on Cancel button in Charges for {string}")
+    public void userClicksOnCancelButtonInCharges(String chargeType) {
+        chargesPage.clickCancel(chargeType);
+    }
 }
