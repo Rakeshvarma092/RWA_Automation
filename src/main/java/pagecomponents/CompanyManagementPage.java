@@ -166,6 +166,12 @@ public class CompanyManagementPage extends DriverUtils {
     @FindBy(xpath = "//span[contains(text(),' Save ')]")
     private WebElement btn_Save;
 
+    //====== Navigate and Get Email ID====
+
+    @FindBy(xpath = "//tbody/tr[1]/td[5]/button[1]/span[3]")
+    private WebElement navCompany;
+
+
     //======================= Constructor =====================//
 
     public CompanyManagementPage(WebDriver driver) {
