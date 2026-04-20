@@ -1,4 +1,4 @@
-package stepDefinitions;
+package hooks;
 
 //import DataBase.MongoDB;
 import java.io.File;
@@ -20,16 +20,14 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 
-import DriverFactory.WebDriverFactory;
+import driverfactory.WebDriverFactory;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.Screenshot;
 import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
-import utilities.ConfigReader;
-import utilities.ExtentReader;
-import utilities.MailReader;
+import utilities.*;
 
 public class ApplicationHooks extends WebDriverFactory {
     public static ExtentTest test;
@@ -56,7 +54,7 @@ public class ApplicationHooks extends WebDriverFactory {
         configReader = new ConfigReader();
         extentReader = new ExtentReader();
         properties = configReader.init_Prop();
-        driverFactory = new WebDriverFactory();
+        driverFactory = new driverfactory.WebDriverFactory();
         
         test = extent.createTest(scenario.getName());
         extentReader.updateExtentPropertiesValue("basefolder.name", "Reports/reports-" + dateFormat() + "/reports");

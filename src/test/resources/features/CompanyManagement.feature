@@ -1,49 +1,72 @@
-Feature: Company Management
+Feature: Company Management functionality
 
-  Background: User is logged into the application
+  Background:
     Given User navigates to Url
-    Then Verify Login page is visible
-    When User enters email ID "sunil.javvaji@toucanus.com"
-    And User clicks on Send OTP button
-    And User enters OTP "333333"
-    And User clicks on Verify and Login button
-    Then Verify "SYSTEM ADMIN" page is visible
+    When User login with "Super Admin" credentials
+    Then User should be redirected to the "System Admin" dashboard page
+    When User navigates to Company Management page
 
-  @Browser @Branch5
-  Scenario: Successfully onboard a new company
+  @Browser @Branch3
+  Scenario: Successfully onboard a new company with all details
 
-    When User clicks on Company Management
-    Then Verify Company Onboard page is visible
-    When User clicks on Add New button
-    Then Verify Onboard Company page is visible
-    When User set Company Details in onboard company page
-      | Company Name | Company Type | Company Group |
-      | Test         | Developer    | Group         |
-    When User set Communication Details in onboard company page
-      | Country Code | Mobile Number | Email ID   | Landline Number | Website            |
-      | 91           |               | @gmail.com | 0401234567      | www.automation.com |
-    And User enters Address Line 1 "Automation Street"
-    And User enters Address Line 2 "Tech Park"
-    And User click on Pincode
-    And User clicks on Selected Pincode from lookup
-    And User enters Google Map Link "https://goo.gl/maps/xyz"
-    When User set Tax And Compliance Details in onboard company page
-      | CI Number             | GST Number      | GSTIN Effective Date | PAN Number | ISO      | RERA    |
-      | U12345TG2023PTC123456 | 36AAAAA0000A1Z5 |                      | ABCDE1234F | ISO 9001 | RERA123 |
-    When User set Key Contact Details in onboard company page
-      | Contact Person Name | Designation | Contact Email ID | Contact Country Code | Contact Mobile Number | Contact Identification Number |
-      | Raj                 | Manager     | @gmail.com       | 91                   |                       | ABCDE1234F                    |
-    And User clicks on Save button in Company Management
 
-  @Browser @Branch6
-  Scenario: Canceling company onboarding
+    Then User clicks on the Add New button
+    Then Verify Onboard Company page is displayed
+    And User enters the following details in "Company Details" section:
+      | Field Name      | Value                       |
+      | Company Name    | Random                      |
+      | Company Type    | HOA(Home Owner Association) |
+      | Company Details | QA Automation               |
+    And User clicks on "Next" button in "Company Details" section
+    And User enters the following details in "Communication Details" section:
+      | Field Name      | Value            |
+      | Country Code    | +91              |
+      | Mobile Number   | Random           |
+      | Email ID        | @test.com        |
+      | Landline Number | Random           |
+      | Website         | www.testauto.com |
+    And User clicks on "Next" button in "Communication Details" section
+    And User enters the following details in "Address Details" section:
+      | Field Name      | Value                   |
+      | Address Line 1  | Plot No 123             |
+      | Address Line 2  | Hi-Tech City            |
+      | Pincode         | 500038                  |
+      | Google Map Link | https://maps.google.com |
+    And User clicks on "Next" button in "Address Details" section
+    And User enters the following details in "Tax & Compliance" section:
+      | Field Name           | Value     |
+      | CI Number            | Random    |
+      | GST Number           | Random    |
+      | GSTIN Effective Date | Current   |
+      | PAN Number           | Random    |
+      | ISO                  | 9001:2015 |
+      | RERA                 | RERA12345 |
+      | RERA Effective Date  | Current   |
+    And User clicks on "Next" button in "Tax & Compliance" section
+    And User enters the following details in "Social Media Links" section:
+      | Field Name          | Value                     |
+      | Social Media Link 1 | https://linkedin.com/test |
+      | Social Media Link 2 | https://twitter.com/test  |
+      | Social Media Link 3 | https://facebook.com/test |
+    And User clicks on "Next" button in "Social Media Links" section
+    And User enters the following details in "Key Contact Details" section:
+      | Field Name            | Value               |
+      | Contact Person Name   | Random              |
+      | Designation           | QA Manager          |
+      | Contact Email ID      | qa.manager@test.com |
+      | Contact Country Code  | +91                 |
+      | Contact Mobile Number | Random              |
+      | Identification Type   | PAN                 |
+      | Identification Number | Random              |
+    And User clicks on the Save button
+    Then Company should be onboarded successfully
 
-    When User clicks on Company Management
-    Then Verify Company Onboard page is visible
-    When User clicks on Add New button
-    Then Verify Onboard Company page is visible
-    When User set Company Details in onboard company page
-      | Company Name | Company Type | Company Group |
-      | Test         | Developer    | Group         |
-    And User clicks on Clear button in Company Management
-    Then Verify Company Onboard page is visible
+  @Browser @Branch2
+  Scenario: Cancel company onboarding process
+
+    When User clicks on the Add New button
+    And User enters the following details in "Company Details" section:
+      | Field Name   | Value       |
+      | Company Name | Cancel Test |
+    And User clicks on the Cancel button
+    Then Verify Company Management page is displayed

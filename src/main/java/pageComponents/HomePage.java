@@ -1,4 +1,4 @@
-package pageComponents;
+package pagecomponents;
 
 import org.apache.logging.log4j.core.Core;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -7,9 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import utilities.ConfigReader;
 import utilities.DriverUtils;
-import utilities.OdsReader;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -21,31 +19,39 @@ import java.util.List;
 public class HomePage extends DriverUtils {
     private WebDriver driver;
 
-    //*****************Locators***********************************//
-    @FindBy(xpath = "//p[text()=' Welcome to United Gates']")
-    private WebElement title_SystemAdmin;
+    // ==================== LOCATORS ====================
 
-    @FindBy(xpath = "//p[text()='Your community, now smarter and safer.']")
-    private WebElement title_CommunityAdmin;
+    @FindBy(xpath = "//span[contains(text(),'(System Admin)')]")
+    private WebElement systemAdminRole;
 
-    @FindBy(xpath = "//p[text()='Your Community,now smarter and safer']")
-    private WebElement title_PropertyAdmin;
+    @FindBy(xpath = "//span[contains(text(),'(Community Admin)')]")
+    private WebElement communityAdminRole;
 
+    @FindBy(xpath = "//span[contains(text(),'(Property Admin)')]")
+    private WebElement propertyAdminRole;
+
+    // ==================== CONSTRUCTOR ====================
     public HomePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
-    public void verifySystemHomePage() {
-        waitUntilVisible(title_SystemAdmin);
-    }
+    // ==================== PAGE ACTIONS ====================
 
-    public void verifyCommunityHomePage() {
-        waitUntilVisible(title_CommunityAdmin);
-    }
-
-    public void verifyPropertyHomePage() {
-        waitUntilVisible(title_PropertyAdmin);
+    public void verifyRoleDisplayed(String role) {
+        switch (role.toUpperCase()) {
+            case "SYSTEM ADMIN":
+                waitUntilVisible(systemAdminRole);
+                break;
+            case "COMMUNITY ADMIN":
+                waitUntilVisible(communityAdminRole);
+                break;
+            case "PROPERTY ADMIN":
+                waitUntilVisible(propertyAdminRole);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown role: '" + role + "'. Valid: 'System Admin', 'Community Admin', 'Property Admin'");
+        }
     }
 
 }

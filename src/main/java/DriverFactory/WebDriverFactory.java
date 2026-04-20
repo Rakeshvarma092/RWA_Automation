@@ -1,4 +1,4 @@
-package DriverFactory;
+package driverfactory;
 
 
 import org.openqa.selenium.StaleElementReferenceException;

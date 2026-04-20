@@ -1,5 +1,6 @@
 package utilities;
 
+
 import java.io.*;
 import java.util.Properties;
 
@@ -68,7 +69,13 @@ public class ConfigReader {
     public String getEmailUserId() {
         return properties.getProperty("userId");
     }
+
     public String getEMailUserPassword() {
         return properties.getProperty("emailPassword");
     }
+
+    public static String getProperty(String key) {
+        return properties.getProperty(key);
+    }
+
 }

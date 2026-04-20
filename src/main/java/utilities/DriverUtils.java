@@ -1,6 +1,6 @@
 package utilities;
 
-import DriverFactory.WebDriverFactory;
+import driverfactory.WebDriverFactory;
 import com.github.javafaker.Faker;
 import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.*;
@@ -42,6 +42,11 @@ public class DriverUtils extends WebDriverFactory {
     private static final Set<String> GENERATED_COMPANY_NAMES = new HashSet<>();
     private static final Set<String> GENERATED_RANDOM_NAMES = new HashSet<>();
     private static final Set<String> GENERATED_PHONE_NUMBERS = new HashSet<>();
+    private static final Set<String> GENERATED_PAN_NUMBERS = new HashSet<>();
+    private static final Set<String> GENERATED_AADHAAR_NUMBERS = new HashSet<>();
+    private static final Set<String> GENERATED_GSTIN_NUMBERS = new HashSet<>();
+    private static final Set<String> GENERATED_CIN_NUMBERS = new HashSet<>();
+    private static final Set<String> GENERATED_ISO_NUMBERS = new HashSet<>();
 
     private static final String USER_DIR_TESTDATA =
             System.getProperty("user.dir") + File.separator + "testData";
@@ -393,12 +398,6 @@ public class DriverUtils extends WebDriverFactory {
 
     // ---------------------- RANDOM NAME / PHONE GENERATION ----------------------
 
-    /**
-     * Generates a unique random-looking name with:
-     * - First letter uppercase
-     * - Remaining lowercase
-     * - Length between 3 and 12 chars
-     */
     public static String generateName() {
         String name;
         while (true) {
@@ -421,31 +420,7 @@ public class DriverUtils extends WebDriverFactory {
         return name;
     }
 
-    /**
-     * Generates a unique, valid-looking company name using Faker.
-     * Replaces "and" with "Alias" and "LLC" with "Organization".
-     */
-    public static String generateValidName() {
-        Faker faker = new Faker();
-        String name;
-
-        while (true) {
-            name = faker.company().name();
-            // Ensure uniqueness based on raw generated name
-            if (GENERATED_COMPANY_NAMES.add(name)) {
-                break;
-            }
-        }
-
-        return name
-                .replace("and", "Alias")
-                .replace("LLC", "Organization");
-    }
-
-    /**
-     * Generates a unique 10-digit phone number starting with 6–9.
-     */
-    public static String generateValidPhoneNumber() {
+    public static String generatePhoneNumber() {
         String phoneNumber;
         while (true) {
             int firstDigit = (int) (Math.random() * 4) + 6; // 6–9
@@ -458,5 +433,79 @@ public class DriverUtils extends WebDriverFactory {
             }
         }
         return phoneNumber;
+    }
+
+    public static String generatePAN() {
+        String pan;
+        while (true) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < 3; i++) sb.append((char) ('A' + Math.random() * 26));
+            sb.append('C'); // Fourth character 'C' for Company
+            sb.append((char) ('A' + Math.random() * 26));
+            for (int i = 0; i < 4; i++) sb.append((int) (Math.random() * 10));
+            sb.append((char) ('A' + Math.random() * 26));
+            pan = sb.toString();
+            if (GENERATED_PAN_NUMBERS.add(pan)) break;
+        }
+        return pan;
+    }
+
+    public static String generateAadhar() {
+        String aadhar;
+        while (true) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < 12; i++) {
+                sb.append((int) (Math.random() * 10));
+            }
+            aadhar = sb.toString();
+            if (GENERATED_AADHAAR_NUMBERS.add(aadhar)) break;
+        }
+        return aadhar;
+    }
+
+    public static String generateGSTIN() {
+        String gstin;
+        while (true) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(String.format("%02d", (int) (Math.random() * 37) + 1));
+            sb.append(generatePAN());
+            sb.append((int) (Math.random() * 9) + 1);
+            sb.append('Z');
+            sb.append((char) ('0' + Math.random() * 10));
+            gstin = sb.toString();
+            if (GENERATED_GSTIN_NUMBERS.add(gstin)) break;
+        }
+        return gstin;
+    }
+
+    public static String generateCINumber() {
+        String cin;
+        String[] states = {"MH", "DL", "KA", "TN", "TS", "UP", "WB"};
+        String[] entity = {"PTC", "PLC", "OPC", "LLP"};
+        while (true) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(Math.random() > 0.5 ? 'L' : 'U'); // L for Listed, U for Unlisted
+            sb.append(String.format("%05d", (int)(Math.random() * 100000))); // Industry code
+            sb.append(states[(int)(Math.random() * states.length)]); // State code
+            sb.append((int)(Math.random() * 24) + 2000); // Year 2000-2023
+            sb.append(entity[(int)(Math.random() * entity.length)]); // Entity type
+            sb.append(String.format("%06d", (int)(Math.random() * 1000000))); // Registration Number
+            
+            cin = sb.toString();
+            if (GENERATED_CIN_NUMBERS.add(cin)) break;
+        }
+        return cin;
+    }
+
+    public static String generateISONumber() {
+        String iso;
+        String[] isoTypes = {"9001", "27001", "14001", "45001", "22000"};
+        while (true) {
+            String base = isoTypes[(int)(Math.random() * isoTypes.length)];
+            int year = (int)(Math.random() * 24) + 2000;
+            iso = "ISO " + base + ":" + year;
+            if (GENERATED_ISO_NUMBERS.add(iso)) break;
+        }
+        return iso;
     }
 }

@@ -1,6 +1,5 @@
 package utilities;
 
-import org.apache.logging.log4j.core.config.properties.PropertiesConfiguration;
 
 import java.io.*;
 import java.util.Properties;
